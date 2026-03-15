@@ -17,25 +17,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Importamos los datos y colores que creamos antes
 import com.example.smartinezfinanceapp.models.mockUser
 import com.example.smartinezfinanceapp.ui.theme.*
 
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import com.example.smartinezfinanceapp.models.mockSummaryCards
+
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
-    // Contenedor principal de toda la pantalla
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(BlackBackground) // Nuestro fondo oscuro de finanzas
+            .background(BlackBackground)
             .padding(16.dp)
     ) {
-        // 1. El Encabezado
         HeaderSection()
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // (Aquí irán las tarjetas resumen en el siguiente paso)
+        SummaryCardsSection()
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -45,20 +49,17 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun HeaderSection() {
-    // Row para poner el perfil a la izquierda y el menú a la derecha
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween, // Separa los elementos a los extremos
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Row interno para el icono y los textos de saludo
         Row(verticalAlignment = Alignment.CenterVertically) {
-            // Círculo del perfil
             Box(
                 modifier = Modifier
                     .size(50.dp)
                     .clip(CircleShape)
-                    .background(DarkCard), // Fondo gris oscuro para el icono
+                    .background(DarkCard),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -71,23 +72,21 @@ fun HeaderSection() {
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            // Textos de saludo
             Column {
                 Text(
                     text = "Hola ${mockUser.name}",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = TextWhite // Texto blanco para que resalte en fondo negro
+                    color = TextWhite
                 )
                 Text(
                     text = "Bienvenido",
                     fontSize = 14.sp,
-                    color = TextGray // Gris para el subtítulo
+                    color = TextGray
                 )
             }
         }
 
-        // Icono de Menú Hamburguesa a la derecha
         Icon(
             imageVector = Icons.Default.Menu,
             contentDescription = "Menú",
@@ -97,9 +96,70 @@ fun HeaderSection() {
     }
 }
 
-// Vista previa para que vayas viendo cómo queda
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen()
+}
+
+@Composable
+fun SummaryCardsSection() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        SummaryCardItem(
+            card = mockSummaryCards[0],
+            modifier = Modifier
+                .weight(1f)
+                .height(216.dp)
+        )
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            SummaryCardItem(
+                card = mockSummaryCards[1],
+                modifier = Modifier.height(100.dp).fillMaxWidth()
+            )
+
+            SummaryCardItem(
+                card = mockSummaryCards[2],
+                modifier = Modifier.height(100.dp).fillMaxWidth()
+            )
+        }
+    }
+}
+
+@Composable
+fun SummaryCardItem(card: com.example.smartinezfinanceapp.models.SummaryCard, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = card.backgroundColor)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = card.title,
+                color = if (card.backgroundColor == Color(0xFF00C853)) Color.Black else TextWhite, // Letra negra para el verde brillante, blanca para oscuros
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
+                lineHeight = 20.sp
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "$${card.amount}",
+                color = if (card.backgroundColor == Color(0xFF00C853)) Color.Black else TextWhite,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
 }
