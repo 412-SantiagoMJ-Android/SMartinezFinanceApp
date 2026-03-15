@@ -27,6 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import com.example.smartinezfinanceapp.models.mockSummaryCards
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import com.example.smartinezfinanceapp.models.mockTransactions
+
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
@@ -43,8 +47,11 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // (Aquí irán las transacciones más adelante)
-    }
+        TransactionsHeader()
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TransactionsList(modifier = Modifier.weight(1f))    }
 }
 
 @Composable
@@ -159,6 +166,94 @@ fun SummaryCardItem(card: com.example.smartinezfinanceapp.models.SummaryCard, mo
                 color = if (card.backgroundColor == Color(0xFF00C853)) Color.Black else TextWhite,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+fun TransactionsHeader() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Transacciones",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = TextWhite
+        )
+        Text(
+            text = "Ver Todo",
+            fontSize = 14.sp,
+            color = TextGray
+        )
+    }
+}
+
+@Composable
+fun TransactionsList(modifier: Modifier = Modifier) {
+    LazyColumn(
+        modifier = modifier.fillMaxSize()
+    ) {
+        items(mockTransactions) { transaction ->
+            TransactionItem(transaction = transaction)
+        }
+    }
+}
+
+@Composable
+fun TransactionItem(transaction: com.example.smartinezfinanceapp.models.Transaction) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(DarkCard),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = transaction.icon,
+                    contentDescription = transaction.category,
+                    tint = TextWhite,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(
+                    text = transaction.establishment,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = TextWhite
+                )
+                Text(
+                    text = transaction.category,
+                    fontSize = 14.sp,
+                    color = TextGray
+                )
+            }
+        }
+
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                text = if (transaction.amount < 0) "-$${transaction.amount * -1}" else "$${transaction.amount}",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = TextWhite
+            )
+            Text(
+                text = transaction.time,
+                fontSize = 12.sp,
+                color = TextGray
             )
         }
     }

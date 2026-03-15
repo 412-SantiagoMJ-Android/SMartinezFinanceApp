@@ -41,5 +41,11 @@ val mockTransactions = listOf(
     Transaction("Coffee Shop", "Food & Drinks", -5.75, "8:00 AM", Icons.Default.LocalCafe),
     Transaction("Electronics Store", "Electronics", -120.00, "3:45 PM", Icons.Default.Computer),
     Transaction("Bookstore", "Books", -25.99, "2:00 PM", Icons.Default.MenuBook),
-    Transaction("Restaurant", "Dining", -60.00, "7:30 PM", Icons.Default.Restaurant)
+    Transaction("Restaurant", "Dining", -60.00, "7:30 PM", Icons.Default.Restaurant) ,
+            Transaction("Supermarket (Cena)", "Groceries", -15.99, "08:30 AM", Icons.Default.ShoppingCart),
+    Transaction("Gas Station (Viaje)", "Fuel", -40.00, "09:15 AM", Icons.Default.LocalGasStation),
+    Transaction("Coffee Shop (Tarde)", "Food & Drinks", -8.50, "10:00 AM", Icons.Default.LocalCafe),
+    Transaction("Electronics Store", "Electronics", -250.00, "11:45 AM", Icons.Default.Computer),
+    Transaction("Bookstore (Regalo)", "Books", -15.99, "01:00 PM", Icons.Default.MenuBook),
+    Transaction("Restaurant (Cita)", "Dining", -80.00, "08:30 PM", Icons.Default.Restaurant)
 )
